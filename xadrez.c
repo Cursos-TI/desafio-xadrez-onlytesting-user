@@ -4,10 +4,12 @@
 // Desafio Nível Mestre
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
 
+#include <stdio.h>
+
 // Função responsável por implementar o movimento da Torre
 void moverTorre(int casas_restantes)
 {
-  // Quando não há mais movimento restante:
+  // Condição de parada da recursividade
   if (casas_restantes <= 0)
   {
     return;
@@ -20,12 +22,18 @@ void moverTorre(int casas_restantes)
 }
 
 // Função responsável por implementar o movimento do Bispo
-void moverBispo(int casas)
+void moverBispo(int casas_restantes)
 {
+  // Condição de parada da recursividade
+  if (casas_restantes <= 0)
+  {
+    return;
+  }
+
   /* O Bispo se move por casas na diagonal, o que significa que para cada movimento vertical há um movimento na horizontal */
 
   // Loop for para movimento vertical
-  for (int i = 0; i < casas; i++)
+  for (int i = 0; i < 1; i++)
   {
     printf("Cima\n");
 
@@ -35,12 +43,15 @@ void moverBispo(int casas)
       printf("Direita\n");
     }
   }
+
+  // Recursividade aplicada
+  moverBispo(casas_restantes - 1);
 }
 
 // Função responsável por implementar o movimento da Rainha
 void moverRainha(int casas_restantes)
 {
-  // Quando não há mais movimento restante:
+  // Condição de parada da recursividade
   if (casas_restantes <= 0)
   {
     return;
@@ -91,7 +102,7 @@ int main()
   const int MOVIMENTO_CAVALO_HORIZONTAL = 1;
 
   // Movimento da Torre
-  printf("\nSimulação do Movimento da Torre:\n\n");
+  printf("Simulação do Movimento da Torre:\n\n");
   moverTorre(MOVIMENTO_TORRE);
 
   // Movimento do Bispo
