@@ -1,13 +1,12 @@
 #include <stdio.h>
 
 // Desafio de Xadrez - MateCheck
-// Desafio Nível Novato
+// Desafio Nível Aventureiro
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
 
-/* Esta função simula o movimento de três peças de xadrez: Torre (loop for), Bispo (loop while) e Rainha (loop do-while) */
+/* Esta função simula o movimento de quatro peças de xadrez: Torre (loop for), Bispo (loop while), Rainha (loop do-while) e Cavalo (for e do-while aninhado) */
 int main()
 {
-
   // Movimento da Torre com o Loop for
   printf("\nSimulação do Movimento da Torre:\n\n");
   // A Torre se move por casas em uma linha reta
@@ -35,10 +34,7 @@ int main()
   int movimento_casas_rainha = 8;
   int contador_movimento_rainha = 0;
 
-  /* Como o loop do-while executa a ação antes de verificar
-  se a condição é verdadeira ou não, é interessante verificar
-  previamente se há algum movimento a ser feito para evitar a
-  execução desnecessária caso movimento_casas_rainha fosse igual a 0 */
+  /* Como o loop do-while executa a ação antes de verificar se a condição é verdadeira ou não, é interessante verificar se há algum movimento a ser feito para evitar a execução desnecessária se movimento_casas_rainha fosse 0 */
   if (movimento_casas_rainha > 0)
   {
     do
@@ -51,6 +47,31 @@ int main()
   else
   {
     printf("A Rainha não se moveu!\n");
+  }
+
+  // Movimento do Cavalo com Loops Aninhados (for e do-while)
+  printf("\nSimulação do Movimento do Cavalo:\n\n");
+
+  const int MOVIMENTO_VERTICAL = 2;
+  const int MOVIMENTO_HORIZONTAL = 1;
+
+  // Movimento vertical com o Loop for
+  for (int i = 0; i < MOVIMENTO_VERTICAL; i++)
+  {
+    printf("Baixo\n");
+    // O loop do-while aninhado será executado quando o movimento vertical estiver completo (i == 1)
+    if (i == MOVIMENTO_VERTICAL - 1)
+    {
+      int contador_movimento_horizontal = 0;
+
+      // Movimento horizontal perpendicular com o Loop do-while aninhado
+      /* OBS: A validação da entrada do usuário para o Cavalo será feita no próximo nível, por enquanto essa verificação - opcional no momento - será exclusiva apenas da Rainha */
+      do
+      {
+        printf("Esquerda\n");
+        contador_movimento_horizontal++;
+      } while (contador_movimento_horizontal < MOVIMENTO_HORIZONTAL);
+    }
   }
 
   return 0;
