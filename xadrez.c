@@ -1,78 +1,110 @@
 #include <stdio.h>
 
 // Desafio de Xadrez - MateCheck
-// Desafio Nível Aventureiro
+// Desafio Nível Mestre
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
 
-/* Esta função simula o movimento de quatro peças de xadrez: Torre (loop for), Bispo (loop while), Rainha (loop do-while) e Cavalo (for e do-while aninhado) */
-int main()
+// Função responsável por implementar o movimento da Torre
+void moverTorre(int casas_restantes)
 {
-  // Movimento da Torre com o Loop for
-  printf("\nSimulação do Movimento da Torre:\n\n");
-  // A Torre se move por casas em uma linha reta
-  int movimento_casas_torre = 5;
-
-  for (int i = 1; i <= movimento_casas_torre; i++)
+  // Quando não há mais movimento restante:
+  if (casas_restantes <= 0)
   {
-    printf("Direita\n");
+    return;
   }
 
-  // Movimento do Bispo com o Loop while
-  printf("\nSimulação do Movimento do Bispo:\n\n");
-  // O Bispo se move por casas na diagonal (Cima e Direita)
-  int movimento_casas_bispo = 5;
-  int contador_movimento_bispo = 0;
+  printf("Direita\n");
 
-  while (contador_movimento_bispo < movimento_casas_bispo)
+  /* A função chama a si mesma até que o número de passos a ser feito chegue a 0 */
+  moverTorre(casas_restantes - 1);
+}
+
+// Função responsável por implementar o movimento do Bispo
+void moverBispo(int casas)
+{
+  /* O Bispo se move por casas na diagonal, o que significa que para cada movimento vertical há um movimento na horizontal */
+
+  // Loop for para movimento vertical
+  for (int i = 0; i < casas; i++)
   {
-    printf("Cima, Direita\n");
-    contador_movimento_bispo++;
-  }
+    printf("Cima\n");
 
-  // Movimento da Rainha com o Loop do-while
-  printf("\nSimulação do Movimento da Rainha:\n\n");
-  int movimento_casas_rainha = 8;
-  int contador_movimento_rainha = 0;
-
-  /* Como o loop do-while executa a ação antes de verificar se a condição é verdadeira ou não, é interessante verificar se há algum movimento a ser feito para evitar a execução desnecessária se movimento_casas_rainha fosse 0 */
-  if (movimento_casas_rainha > 0)
-  {
-    do
+    // Loop for aninhado para movimento horizontal
+    for (int j = 0; j < 1; j++)
     {
-      printf("Esquerda\n");
-      contador_movimento_rainha++;
-
-    } while (contador_movimento_rainha < movimento_casas_rainha);
-  }
-  else
-  {
-    printf("A Rainha não se moveu!\n");
-  }
-
-  // Movimento do Cavalo com Loops Aninhados (for e do-while)
-  printf("\nSimulação do Movimento do Cavalo:\n\n");
-
-  const int MOVIMENTO_VERTICAL = 2;
-  const int MOVIMENTO_HORIZONTAL = 1;
-
-  // Movimento vertical com o Loop for
-  for (int i = 0; i < MOVIMENTO_VERTICAL; i++)
-  {
-    printf("Baixo\n");
-    // O loop do-while aninhado será executado quando o movimento vertical estiver completo (i == 1)
-    if (i == MOVIMENTO_VERTICAL - 1)
-    {
-      int contador_movimento_horizontal = 0;
-
-      // Movimento horizontal perpendicular com o Loop do-while aninhado
-      /* OBS: A validação da entrada do usuário para o Cavalo será feita no próximo nível, por enquanto essa verificação - opcional no momento - será exclusiva apenas da Rainha */
-      do
-      {
-        printf("Esquerda\n");
-        contador_movimento_horizontal++;
-      } while (contador_movimento_horizontal < MOVIMENTO_HORIZONTAL);
+      printf("Direita\n");
     }
   }
+}
+
+// Função responsável por implementar o movimento da Rainha
+void moverRainha(int casas_restantes)
+{
+  // Quando não há mais movimento restante:
+  if (casas_restantes <= 0)
+  {
+    return;
+  }
+
+  printf("Esquerda\n");
+
+  // Recursividade aplicada
+  moverRainha(casas_restantes - 1);
+}
+
+// Função responsável por implementar o movimento do Cavalo
+void moverCavalo(int movimento_cavalo_vertical, int movimento_cavalo_horizontal)
+{
+  int contador_movimento_vertical = 0;
+  int contador_movimento_horizontal = 0;
+
+  // Loop for para Movimento Vertical
+  for (contador_movimento_vertical = 0; contador_movimento_vertical < movimento_cavalo_vertical; contador_movimento_vertical++)
+  {
+    printf("Cima\n");
+
+    // O movimento horizontal só ocorre após o último passo na vertical
+    if (contador_movimento_vertical == movimento_cavalo_vertical - 1)
+    {
+      contador_movimento_horizontal = 0;
+
+      // O loop do-while aninhado será executado após o último passo na vertical
+      do
+      {
+        printf("Direita\n");
+        contador_movimento_horizontal++;
+      } while (contador_movimento_horizontal < movimento_cavalo_horizontal);
+
+      // Para sair do loop for externo após completar todo o movimento
+      break;
+    }
+  }
+}
+
+/* Função Principal - centraliza as chamadas às outras funções e permite a testagem do programa */
+int main()
+{
+  const int MOVIMENTO_TORRE = 5;
+  const int MOVIMENTO_BISPO = 5;
+  const int MOVIMENTO_RAINHA = 8;
+  const int MOVIMENTO_CAVALO_VERTICAL = 2;
+  const int MOVIMENTO_CAVALO_HORIZONTAL = 1;
+
+  // Movimento da Torre
+  printf("\nSimulação do Movimento da Torre:\n\n");
+  moverTorre(MOVIMENTO_TORRE);
+
+  // Movimento do Bispo
+  printf("\nSimulação do Movimento do Bispo:\n\n");
+  moverBispo(MOVIMENTO_BISPO);
+
+  // Movimento da Rainha
+  printf("\nSimulação do Movimento da Rainha:\n\n");
+  moverRainha(MOVIMENTO_RAINHA);
+
+  // Movimento do Cavalo
+  printf("\nSimulação do Movimento do Cavalo:\n\n");
+  moverCavalo(MOVIMENTO_CAVALO_VERTICAL, MOVIMENTO_CAVALO_HORIZONTAL);
 
   return 0;
 }
